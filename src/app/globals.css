@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #009356;
+  --brand-ink: #0c1a14;
+}
+
+html { scroll-behavior: smooth; }
+body { @apply bg-white text-brand-ink font-sans antialiased; }
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-brand-500 px-5 py-2.5 font-medium text-white transition hover:bg-brand-600 disabled:opacity-60;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-full border border-gray-300 px-5 py-2.5 font-medium text-brand-ink transition hover:border-brand-500 hover:text-brand-600;
+  }
+  .container-page { @apply mx-auto w-full max-w-content px-4 sm:px-6; }
+  .section { @apply py-16 sm:py-20; }
+  .eyebrow { @apply text-sm font-semibold uppercase tracking-wide text-brand-600; }
+}
