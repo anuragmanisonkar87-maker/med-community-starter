@@ -23,6 +23,7 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [drn, setDrn] = useState(""); // doctor registration number
   const [state, setState] = useState("");
   const [consent, setConsent] = useState(false);
@@ -67,6 +68,7 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
       await supabase.from("profiles").upsert({
         id: data.user.id,
         full_name: name,
+        email,
         drn,
         state,
         role: "member",
@@ -98,6 +100,7 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
           {mode === "signup" && (
             <>
               <Field label="Full name" value={name} onChange={setName} placeholder="Dr. Full Name" />
+              <Field label="Email address" value={email} onChange={setEmail} placeholder="you@example.com" inputMode="email" />
               <Field label="Medical registration no. (DRN)" value={drn} onChange={setDrn} placeholder="e.g. MH-12345" />
               <Field label="State" value={state} onChange={setState} placeholder="Maharashtra" />
             </>
@@ -132,7 +135,7 @@ function Field({
   label, value, onChange, placeholder, inputMode,
 }: {
   label: string; value: string; onChange: (v: string) => void; placeholder?: string;
-  inputMode?: "tel" | "numeric";
+  inputMode?: "tel" | "numeric" | "email";
 }) {
   return (
     <label className="block">
