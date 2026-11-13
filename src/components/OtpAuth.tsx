@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { capture } from "@/lib/posthog";
@@ -29,6 +29,28 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [resendIn, setResendIn] = useState(0); // seconds until OTP can be resent
+
+  // Count down the resend timer.
+  useEffect(() => {
+    if (resendIn <= 0) return;
+    const t = setTimeout(() => setResendIn((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [resendIn]);
+
+  // Returns an error string if the phone-step inputs are invalid, else null.
+  function validatePhoneStep(): string | null {
+    const digits = phone.replace(/\D/g, "");
+    const ten = digits.length === 12 && digits.startsWith("91") ? digits.slice(2) : digits;
+    if (ten.length !== 10 || !/^[6-9]/.test(ten)) return "Enter a valid 10-digit Indian mobile number.";
+    if (mode === "signup") {
+      if (name.trim().length < 2) return "Please enter your full name.";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return "Enter a valid email address.";
+      if (drn.trim().length < 3) return "Please enter your medical registration number.";
+      if (!consent) return "Please accept the terms to continue.";
+    }
+    return null;
+  }
 
   // Basic client-side validation; real validation also happens server-side.
   const e164 = (raw: string) => {
@@ -38,8 +60,8 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
 
   async function sendOtp() {
     setError(null);
-    if (phone.replace(/\D/g, "").length < 10) return setError("Enter a valid mobile number.");
-    if (mode === "signup" && !consent) return setError("Please accept the terms to continue.");
+    const invalid = validatePhoneStep();
+    if (invalid) return setError(invalid);
     setLoading(true);
     const { error } = await supabase.auth.signInWithOtp({
       phone: e164(phone),
@@ -48,6 +70,7 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
     setLoading(false);
     if (error) return setError(error.message);
     capture("otp_requested", { mode });
+    setResendIn(30); // 30s cooldown before resend
     setStep("otp");
   }
 
@@ -122,9 +145,18 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
           <button onClick={verifyOtp} disabled={loading} className="btn-primary w-full">
             {loading ? "Verifying…" : "Verify & continue"}
           </button>
-          <button onClick={() => setStep("phone")} className="w-full text-sm text-gray-500 hover:underline">
-            Change number
-          </button>
+          <div className="flex items-center justify-between text-sm">
+            <button onClick={() => setStep("phone")} className="text-gray-500 hover:underline">
+              Change number
+            </button>
+            {resendIn > 0 ? (
+              <span className="text-gray-400">Resend in {resendIn}s</span>
+            ) : (
+              <button onClick={sendOtp} disabled={loading} className="font-medium text-brand-600 hover:underline">
+                Resend OTP
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>
