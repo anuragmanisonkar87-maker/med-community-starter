@@ -47,6 +47,25 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Problems */}
+      <section className="section">
+        <div className="container-page">
+          <h2 className="font-display text-3xl font-semibold">Why generic money advice fails doctors</h2>
+          <p className="mt-2 max-w-2xl text-gray-600">
+            A late start, an irregular income and a flood of people selling products — doctors face
+            a different set of money problems. Here's where most get stuck.
+          </p>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {problems.map((p) => (
+              <div key={p.title} className="rounded-2xl bg-brand-50/60 p-6">
+                <h3 className="font-semibold">{p.title}</h3>
+                <p className="mt-2 text-sm text-gray-600">{p.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
       <section className="section">
         <div className="container-page">
@@ -79,6 +98,42 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <section className="section">
+        <div className="container-page">
+          <h2 className="font-display text-3xl font-semibold">What members say</h2>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {testimonials.map((t) => (
+              <figure key={t.name} className="rounded-2xl border border-black/5 p-6">
+                <blockquote className="text-sm text-gray-700">“{t.quote}”</blockquote>
+                <figcaption className="mt-4 text-sm font-medium text-brand-ink">
+                  {t.name}
+                  <span className="block text-xs font-normal text-gray-500">{t.role}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <p className="mt-4 text-xs text-gray-400">Illustrative examples. Replace with your own members' consented testimonials.</p>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section bg-brand-50/50">
+        <div className="container-page max-w-3xl">
+          <h2 className="font-display text-3xl font-semibold">Questions doctors ask</h2>
+          <div className="mt-8 divide-y divide-black/5">
+            {faqs.map((f) => (
+              <details key={f.q} className="group py-4">
+                <summary className="cursor-pointer list-none font-medium text-brand-ink">
+                  {f.q}
+                </summary>
+                <p className="mt-2 text-sm text-gray-600">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="section">
         <div className="container-page rounded-3xl bg-brand-ink px-8 py-14 text-center text-white">
@@ -106,4 +161,23 @@ const steps = [
   { title: "Create your account", body: "Sign up free with your mobile number — no password to remember." },
   { title: "Verify you're a doctor", body: "Add your registration number so the community stays doctor-only." },
   { title: "Start learning", body: "Join a webinar, take a course, or ask the community anything." },
+];
+
+const problems = [
+  { title: "A late financial start", body: "Years of study mean saving and investing often begin a decade behind peers in other fields." },
+  { title: "Sold, not advised", body: "High earners attract product pushers. It's hard to tell neutral guidance from a sales pitch." },
+  { title: "Little time to plan", body: "Between OPD, rounds and exams, money decisions get postponed — and compound interest is lost." },
+];
+
+const testimonials = [
+  { quote: "Clear, practical sessions that finally made my taxes and investments make sense.", name: "A. Verma", role: "Physician" },
+  { quote: "No jargon, no sales pitch — just answers I could act on the same week.", name: "S. Nair", role: "Surgeon" },
+  { quote: "Being in a doctor-only group means the questions and answers actually fit my life.", name: "R. Iyer", role: "General practitioner" },
+];
+
+const faqs = [
+  { q: "Is it really free?", a: "Yes — membership, webinars and the community are free. Some in-depth courses are optional paid add-ons." },
+  { q: "Who can join?", a: "Verified medical professionals in India. We ask for your registration number to keep the community doctor-only." },
+  { q: "Do you sell financial products?", a: "This is an education community. Any paid advisory is clearly separate and optional — we show our registration details openly." },
+  { q: "How do I sign in?", a: "With your mobile number and a one-time code (OTP). There's no password to remember." },
 ];
