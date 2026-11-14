@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { capture } from "@/lib/posthog";
 
 type Mode = "signup" | "login";
@@ -16,7 +16,7 @@ type Mode = "signup" | "login";
  * write them to `profiles` after verification.
  */
 export default function OtpAuth({ mode }: { mode: Mode }) {
-  const supabase = createClient();
+  const supabase = createClient(); // null if env vars are missing
   const router = useRouter();
 
   const [step, setStep] = useState<"phone" | "otp">("phone");
@@ -60,6 +60,7 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
 
   async function sendOtp() {
     setError(null);
+    if (!supabase) return setError("Sign-in isn't configured yet. Add the Supabase environment variables and redeploy.");
     const invalid = validatePhoneStep();
     if (invalid) return setError(invalid);
     setLoading(true);
@@ -76,6 +77,7 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
 
   async function verifyOtp() {
     setError(null);
+    if (!supabase) return setError("Sign-in isn't configured yet. Add the Supabase environment variables and redeploy.");
     setLoading(true);
     const { data, error } = await supabase.auth.verifyOtp({
       phone: e164(phone),
@@ -113,6 +115,13 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
           ? "Join the community — free, no password."
           : "Welcome back. We'll text you a one-time code."}
       </p>
+
+      {!isSupabaseConfigured && (
+        <p className="mt-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
+          Authentication isn't configured. Set <code>NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
+          <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> in your host and redeploy.
+        </p>
+      )}
 
       {error && (
         <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
