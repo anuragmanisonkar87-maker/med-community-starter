@@ -30,7 +30,7 @@ export default function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Link href="/login" className="text-sm text-gray-600 hover:text-brand-600">Sign in</Link>
+          <Link href="/login" className="text-sm text-gray-600 hover:text-brand-600">Login</Link>
           <Link href="/signup" className="btn-primary text-sm">Join free</Link>
         </div>
 
@@ -50,7 +50,7 @@ export default function SiteHeader() {
               </Link>
             ))}
             <div className="mt-2 flex gap-3">
-              <Link href="/login" className="btn-ghost flex-1 text-sm">Sign in</Link>
+              <Link href="/login" className="btn-ghost flex-1 text-sm">Login</Link>
               <Link href="/signup" className="btn-primary flex-1 text-sm">Join free</Link>
             </div>
           </div>

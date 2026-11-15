@@ -108,7 +108,7 @@ export default function OtpAuth({ mode }: { mode: Mode }) {
   return (
     <div className="mx-auto w-full max-w-md rounded-2xl border border-black/5 bg-white p-8 shadow-sm">
       <h1 className="font-display text-2xl font-semibold text-brand-ink">
-        {mode === "signup" ? "Create your account" : "Sign in"}
+        {mode === "signup" ? "Create your account" : "Login"}
       </h1>
       <p className="mt-1 text-sm text-gray-500">
         {mode === "signup"
