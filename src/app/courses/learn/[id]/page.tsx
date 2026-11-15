@@ -21,7 +21,7 @@ export default async function LearnPage({
 
   const [{ data: course }, { data: modules }, { data: progress }] = await Promise.all([
     supabase.from("courses").select("title, description").eq("id", params.id).single(),
-    supabase.from("course_modules").select("id, title, video_id, video_url, sort_order").eq("course_id", params.id).order("sort_order"),
+    supabase.from("course_modules").select("id, title, video_id, video_url, bunny_video_id, sort_order").eq("course_id", params.id).order("sort_order"),
     supabase.from("course_progress").select("module_id").eq("user_id", user!.id),
   ]);
   if (!course) notFound();
@@ -64,7 +64,18 @@ export default async function LearnPage({
             <>
               <h1 className="font-display text-2xl font-semibold">{current.title}</h1>
               <div className="mt-4 overflow-hidden rounded-2xl border border-black/5">
-                {current.video_url ? (
+                {current.bunny_video_id && process.env.NEXT_PUBLIC_BUNNY_STREAM_LIBRARY_ID ? (
+                  <div className="aspect-video w-full">
+                    <iframe
+                      className="h-full w-full"
+                      src={`https://iframe.mediadelivery.net/embed/${process.env.NEXT_PUBLIC_BUNNY_STREAM_LIBRARY_ID}/${current.bunny_video_id}?autoplay=false`}
+                      title={current.title}
+                      loading="lazy"
+                      allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                ) : current.video_url ? (
                   <video controls className="aspect-video w-full bg-black" src={current.video_url} />
                 ) : current.video_id ? (
                   <div className="aspect-video w-full">

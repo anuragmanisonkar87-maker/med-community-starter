@@ -13,7 +13,7 @@ const nextConfig = {
     const csp = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://app.cal.com https://www.googletagmanager.com https://*.posthog.com",
-      "frame-src https://api.razorpay.com https://checkout.razorpay.com https://app.cal.com",
+      "frame-src https://api.razorpay.com https://checkout.razorpay.com https://app.cal.com https://iframe.mediadelivery.net https://www.youtube.com",
       "connect-src 'self' https://*.supabase.co https://lumberjack.razorpay.com https://*.posthog.com https://www.google-analytics.com",
       "img-src 'self' data: https:",
       "style-src 'self' 'unsafe-inline'",
