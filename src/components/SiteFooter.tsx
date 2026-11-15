@@ -12,7 +12,7 @@ export default function SiteFooter() {
           </p>
         </div>
         <FooterCol title="Learn" links={[["Watch", "/watch"], ["Courses", "/courses"], ["Blog", "/blog"], ["FIRE Calculator", "/calculators/fire"], ["FinnFit Quiz", "/quiz"]]} />
-        <FooterCol title="Community" links={[["Join free", "/signup"], ["Sign in", "/login"], ["Forum", "/community"], ["Events", "/events"]]} />
+        <FooterCol title="Community" links={[["Join free", "/signup"], ["Sign in", "/login"], ["Forum", "/community"], ["Events", "/events"], ["Newsletters", "/newsletters"]]} />
         <FooterCol title="Company" links={[["About", "/about"], ["Contact", "/contact"], ["Terms", "/terms"], ["Privacy", "/privacy"]]} />
       </div>
 
