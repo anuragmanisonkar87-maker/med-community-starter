@@ -11,7 +11,7 @@ export default function SiteFooter() {
             A personal-finance community built for doctors in India.
           </p>
         </div>
-        <FooterCol title="Learn" links={[["Webinars", "/webinars"], ["Courses", "/courses"], ["Blog", "/blog"], ["Calculators", "/calculators"]]} />
+        <FooterCol title="Learn" links={[["Watch", "/watch"], ["Courses", "/courses"], ["Blog", "/blog"], ["FIRE Calculator", "/calculators/fire"], ["FinnFit Quiz", "/quiz"]]} />
         <FooterCol title="Community" links={[["Join free", "/signup"], ["Sign in", "/login"], ["Forum", "/community"], ["Events", "/events"]]} />
         <FooterCol title="Company" links={[["About", "/about"], ["Contact", "/contact"], ["Terms", "/terms"], ["Privacy", "/privacy"]]} />
       </div>

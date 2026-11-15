@@ -4,10 +4,11 @@ import Link from "next/link";
 import { useState } from "react";
 
 const nav = [
-  { label: "Webinars", href: "/webinars" },
+  { label: "Watch", href: "/watch" },
   { label: "Courses", href: "/courses" },
   { label: "Community", href: "/community" },
   { label: "Blog", href: "/blog" },
+  { label: "Tools", href: "/calculators/fire" },
 ];
 
 // Sticky header with a mobile drawer — mirrors the structure of the reference site.
